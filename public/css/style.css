@@ -1,0 +1,493 @@
+:root {
+    /* iOS System Colors - Default Dark */
+    --bg-primary: #000000;
+    --bg-secondary: #1c1c1e;
+    --bg-tertiary: #2c2c2e;
+    --text-primary: #ffffff;
+    --text-secondary: #8e8e93;
+    --accent: #0a84ff;
+    --accent-gradient: linear-gradient(135deg, #0a84ff, #5e5ce6);
+    --danger: #ff453a;
+    --success: #32d74b;
+    --border: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+}
+
+[data-theme="light"] {
+    --bg-primary: #f2f2f7;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #e5e5ea;
+    --text-primary: #000000;
+    --text-secondary: #8e8e93;
+    --accent: #007aff;
+    --accent-gradient: linear-gradient(135deg, #007aff, #5856d6);
+    --danger: #ff3b30;
+    --success: #34c759;
+    --border: rgba(0, 0, 0, 0.05);
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.4;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+.payment-container {
+    padding: 20px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.payment-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--bg-secondary);
+    border-radius: 30px;
+    padding: 28px 24px;
+    box-shadow: var(--card-shadow);
+}
+
+.payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: logo-pulse 2s ease-in-out infinite;
+}
+
+@keyframes logo-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(0.98); }
+}
+
+.cancel-btn {
+    background: var(--bg-primary);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Modal Popup */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    width: 100%;
+    max-width: 320px;
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    animation: modal-in 0.3s cubic-bezier(0.17, 0.89, 0.32, 1.28);
+}
+
+@keyframes modal-in {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.modal-icon.success { color: var(--success); }
+.modal-icon.error { color: var(--danger); }
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.modal-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.modal-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    background: var(--accent);
+    color: white;
+}
+
+.theme-toggle {
+    background: var(--bg-tertiary);
+    border: none;
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Amount Section */
+.amount-section {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.amount-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.amount-input-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.amount-currency {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.amount-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 48px;
+    font-weight: 800;
+    width: auto;
+    max-width: 280px;
+    text-align: center;
+    outline: none;
+    letter-spacing: -2px;
+}
+
+/* Method List Style - Replaced Grid with List */
+.method-section {
+    margin-bottom: 32px;
+}
+
+.method-title {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.method-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Custom Scrollbar for methods list */
+.method-grid::-webkit-scrollbar {
+    width: 4px;
+}
+.method-grid::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+}
+
+.method-item {
+    background: var(--bg-tertiary);
+    border-radius: 18px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+}
+
+.method-item i {
+    font-size: 22px;
+    color: var(--accent);
+    width: 28px;
+    text-align: center;
+}
+
+.method-item.active {
+    background: var(--bg-tertiary);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+}
+
+.method-item:active {
+    transform: scale(0.98);
+    opacity: 0.8;
+}
+
+/* Payment Detail Area */
+.payment-detail-area {
+    background: var(--bg-tertiary);
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+}
+
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.detail-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    flex: 1;
+}
+
+.detail-badge {
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.qr-container {
+    background: #fff;
+    padding: 24px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+#qrisCanvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
+.payment-number-box {
+    margin-top: 16px;
+    background: var(--bg-primary);
+    padding: 14px 18px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.payment-number {
+    font-family: 'SF Mono', 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.copy-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+}
+
+.detail-row span:first-child {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.detail-row .value {
+    font-weight: 700;
+}
+
+.status-badge {
+    background: var(--bg-primary);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* Action Button */
+.pay-button {
+    width: 100%;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 24px;
+    box-shadow: 0 8px 20px rgba(10, 132, 255, 0.3);
+}
+
+.pay-button:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 10px rgba(10, 132, 255, 0.2);
+}
+
+.pay-button.loading {
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.footer-note {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.divider {
+    width: 4px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 50%;
+}
+
+.error-message {
+    background: var(--danger);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+    .payment-container {
+        padding: 0;
+    }
+    .payment-card {
+        border-radius: 0;
+        min-height: 100vh;
+        padding: 32px 20px calc(32px + var(--safe-area-inset-bottom));
+    }
+    .amount-input {
+        font-size: 42px;
+    }
+}

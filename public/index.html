@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VyPay - Gerbang Pembayaran Modern & Cepat</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="VyPay - Solusi Pembayaran Modern & Cepat. Integrasi QRIS, Virtual Account (BNI, BRI, Mandiri), dan PayPal dengan antarmuka iOS yang elegan. Proses aman dan tanpa ribet.">
+    <meta name="keywords" content="vypay, payment gateway indonesia, qris, virtual account, bni va, bri va, mandiri va, paypal indonesia, bayar online, gerbang pembayaran, icpn, link deskripsi">
+    <meta name="author" content="VyPay Team">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="google-seo-verification-code">
+    <link rel="canonical" href="https://vypay.replit.app/">
+
+    <!-- ICPN & Link Deskripsi -->
+    <meta name="application-name" content="VyPay">
+    <meta name="theme-color" content="#007AFF">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vypay.replit.app/">
+    <meta property="og:title" content="VyPay - Gerbang Pembayaran Modern & Cepat">
+    <meta property="og:description" content="Integrasi pembayaran QRIS dan VA bank lokal dengan desain iOS yang elegan. Solusi pembayaran masa depan untuk bisnis Anda.">
+    <meta property="og:image" content="https://b.top4top.io/p_37039dhxp1.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vypay.replit.app/">
+    <meta property="twitter:title" content="VyPay - Gerbang Pembayaran Modern & Cepat">
+    <meta property="twitter:description" content="Integrasi pembayaran QRIS dan VA bank lokal dengan desain iOS yang elegan. Cepat, Aman, Terpercaya.">
+    <meta property="twitter:image" content="https://b.top4top.io/p_37039dhxp1.png">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://b.top4top.io/p_37039dhxp1.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://b.top4top.io/p_37039dhxp1.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://b.top4top.io/p_37039dhxp1.png">
+    <link rel="shortcut icon" href="https://b.top4top.io/p_37039dhxp1.png">
+
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-card">
+            <!-- Header -->
+            <div class="payment-header">
+                <span class="logo">VyPay</span>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i> Dark
+                </button>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="errorBanner" class="error-message"></div>
+
+            <!-- Amount Input -->
+            <div class="amount-section">
+                <div class="amount-label">
+                    <i class="fas fa-rupiah-sign"></i> Nominal Pembayaran
+                </div>
+                <div class="amount-input-wrapper">
+                    <span class="amount-currency">Rp</span>
+                    <input type="number" id="amountInput" class="amount-input" placeholder="0" value="25000" min="1000" step="1000">
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="method-section">
+                <div class="method-title">
+                    <i class="fas fa-credit-card"></i> Metode Pembayaran
+                </div>
+                <div class="method-grid" id="methodList">
+                    <!-- Methods akan di-generate oleh JS -->
+                </div>
+            </div>
+
+            <!-- Payment Detail Area -->
+            <div id="paymentDetailArea" class="payment-detail-area" style="display: none;">
+                <div class="detail-header">
+                    <i id="detailHeaderIcon" class="fas fa-qrcode"></i>
+                    <h3 id="detailHeaderTitle">QRIS Payment</h3>
+                    <span class="detail-badge">READY</span>
+                    <button id="cancelPaymentBtn" class="cancel-btn">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                </div>
+
+                <!-- QRIS View -->
+                <div id="qrView">
+                    <div class="qr-container">
+                        <canvas id="qrisCanvas" width="180" height="180"></canvas>
+                        <div class="payment-number-box">
+                            <span id="paymentNumberDisplay" class="payment-number">-</span>
+                            <button id="copyBtn" class="copy-btn">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Virtual Account / PayPal View -->
+                <div id="vaView" style="display: none;">
+                    <div class="qr-container" style="background: var(--bg-secondary);">
+                        <i class="fas fa-university" style="font-size: 48px; color: var(--accent); margin-bottom: 12px;"></i>
+                        <div class="payment-number-box">
+                            <span id="vaNumberDisplay" class="payment-number">-</span>
+                            <button id="copyVaBtn" class="copy-btn">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                        <div id="vaInstructions" class="detail-row" style="justify-content: center; margin-top: 8px;">
+                            <i class="fas fa-info-circle"></i> Transfer ke nomor di atas
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Rows -->
+                <div class="detail-rows">
+                    <div class="detail-row">
+                        <span><i class="fas fa-receipt"></i> Total Pembayaran</span>
+                        <span class="value" id="totalAmountDisplay">Rp 25.000</span>
+                    </div>
+                    <div class="detail-row">
+                        <span><i class="fas fa-chart-line"></i> Biaya Layanan</span>
+                        <span class="value" id="feeDisplay">Rp 0</span>
+                    </div>
+                    <div class="detail-row">
+                        <span><i class="fas fa-hourglass-half"></i> Masa Berlaku</span>
+                        <span class="value expiry-value" id="expiryDisplay">
+                            <i class="fas fa-clock"></i> -
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span><i class="fas fa-credit-card"></i> Status</span>
+                        <span class="status-badge">WAITING</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pay Button -->
+            <button class="pay-button" id="payNowBtn">
+                <i class="fas fa-lock"></i> Bayar Sekarang
+            </button>
+
+            <!-- Footer -->
+            <div class="footer-note">
+                <span><i class="fas fa-bolt"></i> Proses cepat</span>
+                <span class="divider"></span>
+                <span><i class="fas fa-shield-alt"></i> Tanpa ribet</span>
+                <span class="divider"></span>
+                <span><i class="fas fa-check-circle"></i> VyPay</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Config -->
+    <script src="js/config.js"></script>
+
+    <!-- Main App -->
+    <script src="js/main.js"></script>
+
+    <script>
+        // Generate method buttons from config
+        document.addEventListener('DOMContentLoaded', () => {
+            const methodList = document.getElementById('methodList');
+            if (methodList && typeof VYPAY_CONFIG !== 'undefined') {
+                methodList.innerHTML = VYPAY_CONFIG.payment_methods.map(method => 
+                    `<div class="method-item" data-method="${method.id}">
+                        <i class="${method.brand === 'paypal' ? 'fab' : 'fas'} fa-${method.icon}"></i> ${method.name}
+                    </div>`
+                ).join('');
+            }
+
+            // Copy button handlers
+            document.getElementById('copyBtn')?.addEventListener('click', () => {
+                const text = document.getElementById('paymentNumberDisplay').textContent;
+                if (text && text !== '-') copyToClipboard(text);
+            });
+
+            document.getElementById('copyVaBtn')?.addEventListener('click', () => {
+                const text = document.getElementById('vaNumberDisplay').textContent;
+                if (text && text !== '-') copyToClipboard(text);
+            });
+
+            async function copyToClipboard(text) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    alert('Copied!');
+                } catch (err) {
+                    alert('Failed to copy');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
